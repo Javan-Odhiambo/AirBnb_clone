@@ -25,4 +25,4 @@ It contains an interpreter to manage the AirBnB objects.
 
 # Authors
 [Javan](https://www.github.com/Javan-Odhiambo) 
-[Dancun]((https://www.github.com/dancoon)
+[Dancun](https://www.github.com/dancoon)
