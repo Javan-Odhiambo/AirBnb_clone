@@ -1,8 +1,10 @@
-'''
+"""
 Supplies the BaseModel class.
-'''
+"""
 from uuid import uuid4
 from datetime import datetime
+
+from models import storage
 
 
 class BaseModel:
@@ -22,9 +24,9 @@ class BaseModel:
     """
     def __init__(self, *args, **kwargs) -> None:
         """Instantiates a new object
-			Description:
-				- If kwargs is not empty, all the keys are set as attributes.
-				- Else a default object is instantiated.
+            Description:
+                - If kwargs is not empty, all the keys are set as attributes.
+                - Else a default object is instantiated.
         """
         if kwargs:
             date_format = '%Y-%m-%dT%H:%M:%S.%f'
@@ -37,6 +39,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self) -> str:
         """String representation of the object.
@@ -52,6 +55,7 @@ class BaseModel:
         """updates the updated_at attribute with the current datetime.
         """
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self) -> dict:
         """Returns a dictionary containing all key/values of the instance
@@ -64,9 +68,13 @@ class BaseModel:
         Returns:
             dict: the dictionary containing all set attributes.
         """
-        json = self.__dict__
-        json['__class__'] = type(self).__name__
-        json['created_at'] = json['created_at'].isoformat()
-        json['updated_at'] = json['updated_at'].isoformat()
+        model_dict = {}
+        model_dict['__class__'] = type(self).__name__
 
-        return (json)
+        for key, val in self.__dict__.items():
+            if key == 'created_at' or key == 'updated_at':
+                val = val.isoformat()
+
+            model_dict[key] = val
+
+        return (model_dict)
