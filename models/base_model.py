@@ -20,12 +20,23 @@ class BaseModel:
             - gives a dictionary containing all attributes and values.
 
     """
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """Instantiates a new object
+			Description:
+				- If kwargs is not empty, all the keys are set as attributes.
+				- Else a default object is instantiated.
         """
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs:
+            date_format = '%Y-%m-%dT%H:%M:%S.%f'
+            for key, val in kwargs.items():
+                if key == 'created_at' or key == 'updated_at':
+                    val = datetime.strptime(val, date_format)
+                if key != '__class__':
+                    setattr(self, key, val)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self) -> str:
         """String representation of the object.
