@@ -1,3 +1,6 @@
+"""
+Supplies the FileStorage class.
+"""
 import json
 
 
