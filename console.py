@@ -23,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
     __classes = {
         "BaseModel": BaseModel,
     }
-    
+
     '''
     Final __classes dict
      __classes = {
@@ -107,7 +107,6 @@ class HBNBCommand(cmd.Cmd):
         for k in list(object_dict.keys()):
             if k == key:
                 found = True
-                print(object_dict)
                 del object_dict[key]
                 storage.save()
                 return
