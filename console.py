@@ -260,7 +260,6 @@ class HBNBCommand(cmd.Cmd):
         obj = objdict["{}.{}".format(args[0], args[1])]
         if len(args) == 4:
             obj[args[2]] = args[3]
-            print(obj)
         elif type(eval(args[2])) == dict:
             for k, v in eval(args[2]).items():
                 obj[k] = v
