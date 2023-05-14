@@ -87,6 +87,8 @@ class HBNBCommand(cmd.Cmd):
                 ]
                 if command_parts[0] in command_dict:
                     arguments = "{} {}".format(arg_parts[0], command_parts[1])
+                    print(command_dict[command_parts[0]])
+                    print(arguments)
                     return command_dict[command_parts[0]](arguments)
         print("*** Unknown syntax: {}".format(arg))
         return False
@@ -227,59 +229,41 @@ class HBNBCommand(cmd.Cmd):
             print(instances)
 
     def do_update(self, args):
-        """ Updates an instance based on the class name
-            and id by adding or updating attribute
-
-            Args:
-                (str): class name.
-                (str): object id.
-                (str): attribute name.
-                (str): value name.
-
-            Description:
-                - Prints different errors if given the wrong input.
-                - Prints an error if the instance is not stored.
-        """
+        """Usage: update <class> <id> <attribute_name> <attribute_value> or
+       <class>.update(<id>, <attribute_name>, <attribute_value>) or
+       <class>.update(<id>, <dictionary>)
+        Update a class instance of a given id by adding or updating
+        a given attribute key/value pair or dictionary."""
         args = parse_arguments(args)
-        class_name = args[0] if args else None
-        dictionary = True if type(eval(args[2])) is dict else False
-        if class_name is None:
+        objdict = storage.all()
+        if len(args) == 0:
             print("** class name missing **")
-            return
-        if class_name and class_name not in self.__classes:
+            return False
+        if args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-            return
-        if len(args) < 2:
+            return False
+        if len(args) == 1:
             print("** instance id missing **")
-            return
-        if len(args) < 3:
-            print("** attribute name missing **")
-            return
-        if len(args) < 4 and not dictionary:
-            print("** value missing **")
-            return
-        instance_id = args[1]
-        obj_key = "{}.{}".format(class_name, instance_id)
-        object_dict = storage.all()
-        if obj_key not in object_dict:
+            return False
+        if "{}.{}".format(args[0], args[1]) not in objdict.keys():
             print("** no instance found **")
-            return
-        instance = object_dict[obj_key]
-        if dictionary:
-            the_dict = eval(args[2])
-            for k, val in the_dict.items():
-                if k in ["id", "created_at", "updated_at"]:
-                    return
-                instance[k] = val
-        else:
-            attribute_name = args[2]
-            attribute_value = args[3].strip('"')
-            if attribute_value.isdigit():
-                attribute_value = int(attribute_value)
-            if len(args) == 4:
-                if attribute_name in ["id", "created_at", "updated_at"]:
-                    return
-                instance[attribute_name] = attribute_value
+            return False
+        if len(args) == 2:
+            print("** attribute name missing **")
+            return False
+        if len(args) == 3:
+            try:
+                type(eval(args[2])) != dict
+            except NameError:
+                print("** value missing **")
+                return False
+        obj = objdict["{}.{}".format(args[0], args[1])]
+        if len(args) == 4:
+            obj[args[2]] = args[3]
+            print(obj)
+        elif type(eval(args[2])) == dict:
+            for k, v in eval(args[2]).items():
+                obj[k] = v
         storage.save()
 
     def do_count(self, args):
