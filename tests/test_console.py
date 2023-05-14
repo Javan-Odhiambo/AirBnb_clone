@@ -315,12 +315,13 @@ class TestHBNBCommandAll(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("create City"))
             self.assertFalse(HBNBCommand().onecmd("create Amenity"))
             self.assertFalse(HBNBCommand().onecmd("create Review"))
-    
+
         commands = ["all", ".all()"]
         expected_outputs = [
-            ["BaseModel", "User", "State", "Place", "City", "Amenity", "Review"]
+            ["BaseModel", "User", "State", "Place", "City",
+             "Amenity", "Review"]
         ]
-    
+
         for command, expected_classes in zip(commands, expected_outputs):
             with patch("sys.stdout", new=StringIO()) as output:
                 self.assertFalse(HBNBCommand().onecmd(command))
@@ -331,29 +332,35 @@ class TestHBNBCommandAll(unittest.TestCase):
     def test_all_single_object_space_notation(self):
         """Test retrieving objects of a single class using space notation"""
 
-        classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
+        classes = ["BaseModel", "User", "State", "City",
+                   "Amenity", "Place", "Review"]
         with patch("sys.stdout", new=StringIO()) as output:
-            self.assertFalse(HBNBCommand().onecmd("create " + " ".join(classes)))
+            self.assertFalse(HBNBCommand().onecmd(
+                "create " + " ".join(classes)))
         for class_name in classes:
             with patch("sys.stdout", new=StringIO()) as output:
                 self.assertFalse(HBNBCommand().onecmd("all " + class_name))
                 self.assertIn(class_name, output.getvalue().strip())
                 for other_class in classes:
                     if other_class != class_name:
-                        self.assertNotIn(other_class, output.getvalue().strip())
+                        self.assertNotIn(other_class,
+                                         output.getvalue().strip())
 
     def test_all_single_object_dot_notation(self):
         """Test retrieving objects of a single class using dot notation"""
-        classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
+        classes = ["BaseModel", "User", "State", "City",
+                   "Amenity", "Place", "Review"]
         with patch("sys.stdout", new=StringIO()) as output:
-            self.assertFalse(HBNBCommand().onecmd("create " + " ".join(classes)))
+            self.assertFalse(HBNBCommand().onecmd(
+                "create " + " ".join(classes)))
         for class_name in classes:
             with patch("sys.stdout", new=StringIO()) as output:
                 self.assertFalse(HBNBCommand().onecmd(class_name + ".all()"))
                 self.assertIn(class_name, output.getvalue().strip())
                 for other_class in classes:
                     if other_class != class_name:
-                        self.assertNotIn(other_class, output.getvalue().strip())
+                        self.assertNotIn(other_class,
+                                         output.getvalue().strip())
 
 
 class TestHBNBCommandUpdate(unittest.TestCase):
@@ -402,7 +409,8 @@ class TestHBNBCommandUpdate(unittest.TestCase):
                    "Amenity", "Place", "Review"]
         for class_name in classes:
             with patch("sys.stdout", new=StringIO()) as output:
-                self.assertFalse(HBNBCommand.onecmd("update {} ".format(class_name)))
+                self.assertFalse(HBNBCommand.onecmd(
+                    "update {} ".format(class_name)))
                 self.assertEqual(correct, output.getvalue().strip())
 
     def test_update_missing_id_dot_notation(self):
@@ -989,7 +997,7 @@ class TestHBNBCommandUpdate(unittest.TestCase):
         test_dict = storage.all()["Place.{}".format(testId)].__dict__
         self.assertEqual(9.8, test_dict["latitude"])
     '''
-        
+
 
 class TestHBNBCommandCount(unittest.TestCase):
     """Unittests for testing count method of HBNB comand interpreter."""
@@ -1031,10 +1039,12 @@ class TestHBNBCommandCount(unittest.TestCase):
         for class_name, expected_count in class_data:
             with self.subTest(class_name=class_name):
                 with patch("sys.stdout", new=StringIO()) as output:
-                    self.assertFalse(HBNBCommand.onecmd(f"create {class_name}"))
+                    self.assertFalse(HBNBCommand.onecmd(
+                        f"create {class_name}"))
                 with patch("sys.stdout", new=StringIO()) as output:
                     self.assertFalse(HBNBCommand.onecmd(f"{class_name}.count()"))
-                    self.assertEqual(str(expected_count), output.getvalue().strip())
+                    self.assertEqual(str(expected_count),
+                    output.getvalue().strip())
     '''
 
 
