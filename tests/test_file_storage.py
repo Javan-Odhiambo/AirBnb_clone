@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """Contains tests for the base model class.
 """
 import os
@@ -14,6 +15,7 @@ class FileStorageTestCase(TestCase):
         """Sets up the test case.
         """
         self.storage = FileStorage()
+        self.storage._FileStorage__file_path = 'test.json'
         self.storage._FileStorage__objects = {}
 
     def gen_test_data(self):

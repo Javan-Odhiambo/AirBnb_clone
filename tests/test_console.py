@@ -18,7 +18,8 @@ from console import HBNBCommand
 
 
 class HBNBCommandTestCase(unittest.TestCase):
-    """Unittests for testing prompting of the HBNB command interpreter"""
+    """Unittests for testing prompting of the HBNB command interpreter
+    """
     @classmethod
     def setUp(self):
         self.console = HBNBCommand()
@@ -66,7 +67,6 @@ class HBNBCommandTestCase(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as output:
             self.assertFalse(self.console.onecmd(''))
             self.assertEqual(output.getvalue(), '')
-
 
 class HBNBCommandCreateTestCase(unittest.TestCase):
     """Unittests for testing create from the HBNB command interpreter."""

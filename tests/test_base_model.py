@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """Contains tests for the base model class.
 """
 from datetime import datetime
@@ -5,6 +6,7 @@ from time import sleep
 from unittest import TestCase
 
 from models.base_model import BaseModel
+from models.base_model import storage
 
 
 class BaseModelTestCase(TestCase):
@@ -13,6 +15,7 @@ class BaseModelTestCase(TestCase):
     def setUp(self):
         """Sets up the test case.
         """
+        storage._FileStorage__file_storage = "test.json"
         self.model = BaseModel()
 
     def test_class_has_correct_attributes(self):
@@ -50,7 +53,6 @@ class BaseModelTestCase(TestCase):
         """Test the save() method.
         """
         old_updated_time = self.model.updated_at
-        sleep(0.1)
         self.model.save()
         new_updated_time = self.model.updated_at
         self.assertNotEqual(old_updated_time, new_updated_time)
