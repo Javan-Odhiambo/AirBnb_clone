@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """Contains tests for the base model class.
 """
 import os
