@@ -87,8 +87,6 @@ class HBNBCommand(cmd.Cmd):
                 ]
                 if command_parts[0] in command_dict:
                     arguments = "{} {}".format(arg_parts[0], command_parts[1])
-                    print(command_dict[command_parts[0]])
-                    print(arguments)
                     return command_dict[command_parts[0]](arguments)
         print("*** Unknown syntax: {}".format(arg))
         return False
@@ -141,20 +139,16 @@ class HBNBCommand(cmd.Cmd):
         """
         object_dict = storage.all()
         args = parse_arguments(args)
-
         if len(args) == 0:
             print("** class name missing **")
             return
-
         class_name = args[0]
-
         if class_name not in self.__classes:
             print("** class doesn't exist **")
             return
         if len(args) == 1:
             print("** instance id missing **")
             return
-
         id = args[1].replace('"', '')
         key = "{}.{}".format(class_name, id)
         found = False
