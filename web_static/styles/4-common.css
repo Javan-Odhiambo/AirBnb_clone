@@ -1,0 +1,27 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	box-sizing: border-box;
+}
+body{
+	color: #484848;
+	font-size: 14px;
+	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+h3{
+	font-weight: 600;
+}
+h4{
+	font-size: 14px;
+	font-weight: 400;
+}
+.container {
+	max-width: 1000px;
+	margin: 30px auto;
+}
+
+ul,
+li {
+	list-style: none;
+}
